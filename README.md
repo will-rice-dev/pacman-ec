@@ -2,7 +2,7 @@
 #	Coding Standards	#
 #################################
 
-You are free to use any of the following programming languages for your submission : 
+You are free to use any of the following programming languages for your submission :
 	- Python 3
 	- C++
 	- C#
@@ -24,7 +24,7 @@ Late submissions will be penalized 5% for the first 24 hour period and an additi
 
 Your final submission must include the script "run.sh" which should compile and run your code.
 
-Your script should run on a standard linux machines with the following commands : 
+Your script should run on a standard linux machines with the following commands :
 ```
 ./run.sh
 ```
@@ -32,3 +32,34 @@ Your script should run on a standard linux machines with the following commands 
 ./run.sh optional_config
 ```
 Note that running without a config implies the use of a default configuration file "default.cfg" and NOT the use of hardcoded values in your code.
+
+#################################
+# Configuration File Explanation #
+#################################
+
+runType: (Required) String that can either be "GA" or "Random". Represents the type of algorithm used.
+
+mu: (Required) Integer that represents the size of the starting population and the population that survives each generation.\
+lambda: (Required) Integer that represents the number of offspring created from mu sized population. Should be greater than or equal to mu since parents cannot survive to the next generation.
+
+pillDensity: (Required) An integer or float containing the percent probability that each blank space will produce a pill. For example, if pillDensity=50, then approximately 50% of blank spaces on the board will be given pills.\
+fruitSpawnProb: (Required) An integer or float containing the percent probability that at the start of each turn a fruit will appear. Fruit will only appear if there are open blank spaces and if there are no existing fruit on the map.\
+fruitScore: (Required) An integer representing how much the game score will increase given that PacMan eats a fruit.\
+timeMult: (Required) An integer representing how many times the area of the map gets multiplied by to represent time.
+
+parentSelect: (Required) String that can either be "Over-Selection" or "Fitness Proportional". Represents the method for selecting parents.\
+survivalSelect: (Required) String that can either be "Truncation" or "k-Tournament". Represents the method for selecting survivors to next generation.\
+survivalTournyK: (Optional) Integer that is only used if survivalSelect is "k-Tournament". It is Required if this is the case. Represents the size of the of k for the tournaments determining survival.
+
+numOfRuns: (Required) An integer representing the number of times that a single run happens.\
+numOfFitnessEvals: (Required) An integer representing the number of fitness evaluations that each run gets.\
+givenRandomSeed: (Optional) An integer that, if present, will be used as the random seed. If not present, then time in microseconds gets used instead.
+
+dMax: (Required) Integer representing the maximum depth that a tree can be upon initialization.\
+parsimony: (Required) Integer representing the coefficient of the parsimony punishment.
+
+fruitConst: (Required) An integer representing what will be used for map value F instead of a manhattan distance if there is no fruit on the board.
+
+logPath: (Required) A string representing where the log file will be output.\
+worldPath: (Required) A string representing where the world file will be output.\
+solPath: (Required) A string representing where the solution file will be output.
