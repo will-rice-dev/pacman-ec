@@ -1,15 +1,18 @@
 import random
 import json
-from .play import Game
+from .playBothControllers import Game
 from .map import Map
-from .pacManController import IndividualPacManController
+from .pacManControllerNew import IndividualPacManControllerNew
+from .ghostController import IndividualGhostController
 from .evolutionOps import breed, survivalSelection
+from .evolutionOpsGhost import breedGhost, survivalSelectionGhost
 
 def runAllBoth(config):
     log = "Result Log\n\n"
 
     log += "World File: " + config["worldPath"] + "\n"
-    log += "Solution File: " + config["solPath"] + "\n"
+    log += "Solution File for Pac-Man: " + config["solPath"] + "\n"
+    log += "Solution File for Ghost: " + config["solPathGhost"] + "\n"
     log += "Pill Density: " + str(config["pillDensity"]) + "\n"
 
     log += "Random Seed: " + str(config["usedSeed"]) + "\n\n"
@@ -22,77 +25,135 @@ def runAllBoth(config):
 
     bestScoresOfRuns = ""
 
-    bestScoreOfAllRuns = -9e99 # This will be beat since.
-    bestIndOfAllRuns = "" # Declare it because it will get overwritten.
+    bestScoreOfAllRunsPac = -9e999 # This will be beat.
+    bestIndOfAllRunsPac = "" # Declare it because it will get overwritten.
+    bestScoreOfAllRunsGhost = -9e999 # This will be beat.
+    bestIndOfAllRunsGhost = "" # Declare it because it will get overwritten.
     for i in range(config["numOfRuns"]):
         log += "Run " + str(i + 1) + '\n'
         print(f"Run {i+1}")
 
-        bestIndOfRun, runLog = singleRunGA(config)
+        bestIndOfRunPac, bestIndOfRunGhost, runLog = singleRunBoth(config)
         log += runLog
-        bestScoresOfRuns += str(bestIndOfRun.gameScore) + '\n'
+        bestScoresOfRuns += str(bestIndOfRunPac.gameScore) + '\n'
         print()
 
         # This keeps track of all runs and saves the very best Game instance.
-        if bestIndOfRun.gameScore > bestScoreOfAllRuns:
-            bestScoreOfAllRuns = bestIndOfRun.gameScore
-            bestIndOfAllRuns = bestIndOfRun
+        if bestIndOfRunPac.gameScore > bestScoreOfAllRunsPac:
+            bestScoreOfAllRunsPac = bestIndOfRunPac.gameScore
+            bestIndOfAllRunsPac = bestIndOfRunPac
 
-    bestSolOfAllRuns = bestIndOfAllRuns.getSol(bestIndOfAllRuns.root, 0)
-    bestWorldOfAllRuns = bestIndOfAllRuns.game.world
+        # This keeps track of all runs and saves the very best Game instance.
+        if bestIndOfRunGhost.gameScore > bestScoreOfAllRunsGhost:
+            bestScoreOfAllRunsGhost = bestIndOfRunGhost.gameScore
+            bestIndOfAllRunsGhost = bestIndOfRunGhost
 
-    print()
-    print(bestScoresOfRuns)
 
-    return log, bestSolOfAllRuns, bestWorldOfAllRuns
+    bestSolOfAllRunsPac = bestIndOfAllRunsPac.sol
+    bestSolOfAllRunsGhost = bestIndOfAllRunsGhost.sol
 
-def singleRunGA(config):
+    curMap = getRandomMap(config)
+    bestGame = Game(curMap, config, bestIndOfAllRunsPac.root, bestIndOfAllRunsGhost.root) # This is where game is run.
+
+    return log, bestSolOfAllRunsPac, bestSolOfAllRunsGhost, bestGame.world
+
+def singleRunBoth(config):
     runLog = ""
     runWorld = ""
 
-    # The initial population of size mu is created below.
-    population = []
+    # The initial population of size mu is created below for Pac Man.
+    pacPop = []
     for i in range(config["mu"]):
-        population.append(IndividualPacManController(config, brandNew=True))
-    numOfFitnessEvals = config["mu"]
+        pacPop.append(IndividualPacManControllerNew(config, brandNew=True))
 
-    avgScore, bestScoreOfRun, bestIndOfRun = evalPopulation(population)
-    toAdd = str(numOfFitnessEvals) + "\t" + str(avgScore) + '\t' + str(bestScoreOfRun)
+    # The initial population of size mu is created below for Ghosts.
+    ghostPop = []
+    for i in range(config["muGhost"]):
+        ghostPop.append(IndividualGhostController(config, brandNew=True))
+
+    # Here the controllers compete for the first time.
+    i = 0
+    j = 0
+    while i < config["mu"] or j < config["muGhost"]:
+        if i >= config["mu"]:
+            pacCont = random.choice(pacPop)
+        else:
+            pacCont = pacPop[i]
+
+        if j >= config["muGhost"]:
+            ghostCont = random.choice(ghostPop)
+        else:
+            ghostCont = ghostPop[j]
+
+        curMap = getRandomMap(config)
+        curGame = Game(curMap, config, pacCont.root, ghostCont.root) # This is where game is run.
+
+        # Automatically averages if necessary.
+        pacCont.setScore(curGame.gameScore)
+        ghostCont.setScore(curGame.ghostScore)
+        i += 1
+        j += 1
+
+    numOfFitnessEvals = max(config["mu"], config["muGhost"])
+
+    avgScore, bestScoreOfRunPac, bestIndOfRunPac = evalPopulation(pacPop)
+    toAdd = str(numOfFitnessEvals) + "\t" + str(avgScore) + '\t' + str(bestScoreOfRunPac)
     runLog += toAdd + '\n'
     print(toAdd)
 
-    if "noChangeForNEvals" in config:
-        noChangeForNEvals = config["noChangeForNEvals"]
-    else:
-        noChangeForNEvals = config["numOfFitnessEvals"] # This will never terminate early.
-    evalsWithoutChange = 0
+    avgScore, bestScoreOfRunGhost, bestIndOfRunGhost = evalPopulation(ghostPop)
 
     while numOfFitnessEvals < config["numOfFitnessEvals"]:
-        population = evolve(config, population)
-        numOfFitnessEvals += config["lambda"]
+        pacPop, ghostPop = evolve(config, pacPop, ghostPop)
+        numOfFitnessEvals += max(config["lambda"], config["lambdaGhost"])
 
-        avgScore, bestScoreInPop, bestIndividualInPop = evalPopulation(population)
-        toAdd = str(numOfFitnessEvals) + "\t" + str(avgScore) + '\t' + str(bestScoreInPop)
+        avgScore, bestScoreInPopPac, bestIndividualInPopPac = evalPopulation(pacPop)
+        toAdd = str(numOfFitnessEvals) + "\t" + str(avgScore) + '\t' + str(bestScoreInPopPac)
         runLog += toAdd + '\n'
         print(toAdd)
 
-        if bestScoreInPop > bestScoreOfRun:
-            bestScoreOfRun = bestScoreInPop
-            bestIndOfRun = bestIndividualInPop
-            evalsWithoutChange = 0
-        else:
-            evalsWithoutChange += config["lambda"]
-            if evalsWithoutChange >= noChangeForNEvals:
-                break
+        if bestScoreInPopPac > bestScoreOfRunPac:
+            bestScoreOfRunPac = bestScoreInPopPac
+            bestIndOfRunPac = bestIndividualInPopPac
+
+        avgScore, bestScoreInPopGhost, bestIndividualInPopGhost = evalPopulation(ghostPop)
+
+        if bestScoreInPopGhost > bestScoreOfRunGhost:
+            bestScoreOfRunGhost = bestScoreInPopGhost
+            bestIndOfRunGhost = bestIndividualInPopGhost
 
     runLog += '\n'
-    return bestIndOfRun, runLog
+    return bestIndOfRunPac, bestIndOfRunGhost, runLog
 
 # Evolution happens here.
-def evolve(config, population):
-    population = breed(population, config)
+def evolve(config, pacPop, ghostPop):
+    pacPop = breed(pacPop, config)
+    ghostPop = breedGhost(ghostPop, config)
 
-    return survivalSelection(population, config)
+    # Here the controllers compete for the first time.
+    i = 0
+    j = 0
+    while i < config["lambda"] or j < config["lambdaGhost"]:
+        if i >= config["lambda"]:
+            pacCont = random.choice(pacPop)
+        else:
+            pacCont = pacPop[i]
+
+        if j >= config["lambdaGhost"]:
+            ghostCont = random.choice(ghostPop)
+        else:
+            ghostCont = ghostPop[j]
+
+        curMap = getRandomMap(config)
+        curGame = Game(curMap, config, pacCont.root, ghostCont.root) # This is where game is run.
+
+        # Automatically averages if necessary.
+        pacCont.setScore(curGame.gameScore)
+        ghostCont.setScore(curGame.ghostScore)
+        i += 1
+        j += 1
+
+    return survivalSelection(pacPop, config), survivalSelection(ghostPop, config)
 
 def evalPopulation(population):
     totScore = 0
@@ -108,3 +169,15 @@ def evalPopulation(population):
 
     avgScore = totScore / len(population)
     return avgScore, bestScore, bestIndividual
+
+# Gets a random map to evaluate fitness on. Returns as Map class.
+def getRandomMap(config):
+    randNum = random.randint(0, 99)
+    mapPath = "maps/map" + str(randNum) + ".txt"
+
+    mapFile = open(mapPath, 'r')
+    mapTxt = mapFile.read()
+    mapFile.close()
+
+    map = Map(mapTxt, config)
+    return map

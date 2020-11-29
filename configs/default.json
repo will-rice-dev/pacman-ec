@@ -3,6 +3,8 @@
 
   "mu": 100,
   "lambda": 475,
+  "muGhost": 100,
+  "lambdaGhost": 475,
 
   "pillDensity": 50,
   "fruitSpawnProb": 1,
@@ -10,13 +12,16 @@
   "timeMult": 2,
 
   "numOfRuns": 2,
-  "numOfFitnessEvals": 2000,
+  "numOfFitnessEvals": 200,
 
   "parentSelect": "Over-Selection",
   "survivalSelect": "Truncation",
+  "parentSelectGhost": "Over-Selection",
+  "survivalSelectGhost": "Truncation",
 
   "dMax": 3,
-  "parsimony": 2,
+  "parsimony": 5,
+  "parsimonyGhost": 5,
 
   "overSelectionPercentage": 0.75,
   "nodeThreshold": 40,
@@ -24,5 +29,6 @@
 
   "logPath": "logs/default.log",
   "worldPath": "worlds/default.wrld",
-  "solPath": "solutions/default.sol"
+  "solPath": "solutions/defaultPacMan.sol",
+  "solPathGhost": "solutions/defaultGhost.sol"
 }

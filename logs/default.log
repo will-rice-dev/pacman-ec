@@ -1,24 +1,19 @@
 Result Log
 
 World File: worlds/default.wrld
-Solution File: solutions/default.sol
+Solution File for Pac-Man: solutions/defaultPacMan.sol
+Solution File for Ghost: solutions/defaultGhost.sol
 Pill Density: 50
-Random Seed: 411101
+Random Seed: 69530
 
 Config Used:
-{"runType": "Both", "mu": 100, "lambda": 475, "pillDensity": 50, "fruitSpawnProb": 1, "fruitScore": 10, "timeMult": 2, "numOfRuns": 2, "numOfFitnessEvals": 2000, "parentSelect": "Over-Selection", "survivalSelect": "Truncation", "dMax": 3, "parsimony": 2, "overSelectionPercentage": 0.75, "nodeThreshold": 40, "fruitConst": 100, "logPath": "logs/default.log", "worldPath": "worlds/default.wrld", "solPath": "solutions/default.sol"}
+{"runType": "Both", "mu": 100, "lambda": 475, "muGhost": 100, "lambdaGhost": 475, "pillDensity": 50, "fruitSpawnProb": 1, "fruitScore": 10, "timeMult": 2, "numOfRuns": 2, "numOfFitnessEvals": 200, "parentSelect": "Over-Selection", "survivalSelect": "Truncation", "parentSelectGhost": "Over-Selection", "survivalSelectGhost": "Truncation", "dMax": 3, "parsimony": 5, "parsimonyGhost": 5, "overSelectionPercentage": 0.75, "nodeThreshold": 40, "fruitConst": 100, "logPath": "logs/default.log", "worldPath": "worlds/default.wrld", "solPath": "solutions/defaultPacMan.sol", "solPathGhost": "solutions/defaultGhost.sol"}
 
 Run 1
-100	7.53	49
-575	44.83	115
-1050	62.02	120
-1525	73.66	147
-2000	79.39	127
+100	10.52	87
+575	43.44	122
 
 Run 2
-100	11.1	64
-575	43.72	91
-1050	59.92	95
-1525	73.28	119
-2000	75.43	165
+100	11.14	89
+575	51.25	123
 

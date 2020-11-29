@@ -30,7 +30,8 @@ def main():
     elif config["runType"] == "GA":
         log, sol, world = runAllGA(config) # Majority of runtime is here.
     elif config["runType"] == "Both":
-        log, sol, world = runAllBoth(config) # Majority of runtime is here.
+        log, sol, solGhost, world = runAllBoth(config) # Majority of runtime is here.
+        writeFile(config["solPathGhost"], solGhost)
 
     writeFile(config["logPath"], log)
     writeFile(config["solPath"], sol)
