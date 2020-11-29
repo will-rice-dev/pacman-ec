@@ -3,22 +3,22 @@ Result Log
 World File: worlds/default.wrld
 Solution File: solutions/default.sol
 Pill Density: 50
-Random Seed: 598190
+Random Seed: 411101
 
 Config Used:
-{"runType": "GA", "mu": 100, "lambda": 475, "pillDensity": 50, "fruitSpawnProb": 1, "fruitScore": 10, "timeMult": 2, "parentSelect": "Over-Selection", "survivalSelect": "Truncation", "survivalTournyK": 20, "numOfRuns": 2, "numOfFitnessEvals": 2000, "dMax": 3, "parsimony": 5, "fruitConst": 100, "logPath": "logs/default.log", "worldPath": "worlds/default.wrld", "solPath": "solutions/default.sol"}
+{"runType": "Both", "mu": 100, "lambda": 475, "pillDensity": 50, "fruitSpawnProb": 1, "fruitScore": 10, "timeMult": 2, "numOfRuns": 2, "numOfFitnessEvals": 2000, "parentSelect": "Over-Selection", "survivalSelect": "Truncation", "dMax": 3, "parsimony": 2, "overSelectionPercentage": 0.75, "nodeThreshold": 40, "fruitConst": 100, "logPath": "logs/default.log", "worldPath": "worlds/default.wrld", "solPath": "solutions/default.sol"}
 
 Run 1
-100	11.05	82
-575	48.68	108
-1050	62.45	144
-1525	73.26	127
-2000	81.78	130
+100	7.53	49
+575	44.83	115
+1050	62.02	120
+1525	73.66	147
+2000	79.39	127
 
 Run 2
-100	10.12	86
-575	42.08	92
-1050	65.37	133
-1525	71.81	108
-2000	84.3	160
+100	11.1	64
+575	43.72	91
+1050	59.92	95
+1525	73.28	119
+2000	75.43	165
 

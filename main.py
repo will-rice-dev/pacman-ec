@@ -3,6 +3,7 @@ from datetime import datetime
 from src.map import Map
 from src.randomGA import runAllRandom
 from src.ga import runAllGA
+from src.runBoth import runAllBoth
 import random
 import json
 
@@ -28,6 +29,8 @@ def main():
         log, sol, world = runAllRandom(config) # Majority of runtime is here.
     elif config["runType"] == "GA":
         log, sol, world = runAllGA(config) # Majority of runtime is here.
+    elif config["runType"] == "Both":
+        log, sol, world = runAllBoth(config) # Majority of runtime is here.
 
     writeFile(config["logPath"], log)
     writeFile(config["solPath"], sol)

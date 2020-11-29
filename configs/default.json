@@ -1,5 +1,5 @@
 {
-  "runType": "GA",
+  "runType": "Both",
 
   "mu": 100,
   "lambda": 475,
@@ -9,16 +9,17 @@
   "fruitScore": 10,
   "timeMult": 2,
 
-  "parentSelect": "Over-Selection",
-  "survivalSelect": "Truncation",
-  "survivalTournyK": 20,
-
   "numOfRuns": 2,
   "numOfFitnessEvals": 2000,
 
-  "dMax": 3,
-  "parsimony": 5,
+  "parentSelect": "Over-Selection",
+  "survivalSelect": "Truncation",
 
+  "dMax": 3,
+  "parsimony": 2,
+
+  "overSelectionPercentage": 0.75,
+  "nodeThreshold": 40,
   "fruitConst": 100,
 
   "logPath": "logs/default.log",

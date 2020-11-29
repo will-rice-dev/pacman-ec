@@ -66,9 +66,9 @@ def parentFitnessProp(population, config, offspring):
 def overSelection(population, config, offspring):
     newPop = sorted(population, key=operator.attrgetter("gameScore"))
 
-    overSelectionNum = int(len(population) * 0.75) # 0.75 can be tuned.
-    worsePop = newPop[:overSelectionNum] # This contains the 75% of bad inds.
-    betterPop = newPop[overSelectionNum:] # This contains the top 25% of inds.
+    overSelectionNum = int(len(population) * config["overSelectionPercentage"])
+    worsePop = newPop[:overSelectionNum] # This contains the x% of bad inds.
+    betterPop = newPop[overSelectionNum:] # This contains the top (1-x)% of inds.
 
     while len(offspring) < config["lambda"]:
         # Gives an 80% chance of picking from the better population.
@@ -91,6 +91,8 @@ def overSelection(population, config, offspring):
         # Adding back the first pick. This avoids asexual breeding.
         if betterFirst:
             betterPop.append(pick1)
+        else:
+            worsePop.append(pick1)
 
         # This gives a 5 percent chance of mutating instead of mating.
         if random.randint(1, 100) <= 5:

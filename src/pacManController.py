@@ -239,7 +239,7 @@ class IndividualPacManController:
         self.gameScore = self.game.gameScore
 
     def parsimony(self, config):
-        overage = 40 - self.nodeCount # 40 is tunable. It is where my computer slowed down.
+        overage = config["nodeThreshold"] - self.nodeCount # Only punishes over a certain threshold.
         if overage < 0:
             self.gameScore += overage * config["parsimony"]
 
