@@ -15,7 +15,7 @@ config["fruitSpawnProb"] = 1
 config["fruitScore"] = 10
 config["timeMult"] = 2
 
-config["numOfRuns"] = 2
+config["numOfRuns"] = 30
 config["numOfFitnessEvals"] = 2000
 
 # The following 3 lines are for Pac Man.
@@ -36,14 +36,14 @@ config["overSelectionPercentage"] = 0.75
 config["nodeThreshold"] = 40
 config["fruitConst"] = 100
 
-config["logPath"] = "logs/new.log"
-config["worldPath"] = "worlds/new.wrld"
-config["solPath"] = "solutions/new.sol"
-config["solPathGhost"] = "solutions/newGhost.sol"
+config["logPath"] = "logs/trial3.log"
+config["worldPath"] = "worlds/trial3.wrld"
+config["solPath"] = "solutions/trial3PacMan.sol"
+config["solPathGhost"] = "solutions/trial3Ghost.sol"
 
 
 
 
-outFile = open("new.json", "w")
+outFile = open("trial3.json", "w")
 json.dump(config, outFile)
 outFile.close()
