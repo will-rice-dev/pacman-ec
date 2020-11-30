@@ -1,6 +1,11 @@
 import random
 import operator
 
+"""
+This file is very similar to the evolutionOps.py file. The only changes
+    were made to make this suitible for ghosts instead of pac man controllers.
+    If redesigned from scratch, both could be accomplished easily in one class.
+"""
 def breedGhost(population, config):
     offspring = []
 

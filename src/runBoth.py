@@ -52,6 +52,7 @@ def runAllBoth(config):
     bestSolOfAllRunsPac = bestIndOfAllRunsPac.sol
     bestSolOfAllRunsGhost = bestIndOfAllRunsGhost.sol
 
+    # Below runs the example game of the best Ghost controller versus the best Pac Man controller.
     curMap = getRandomMap(config)
     bestGame = Game(curMap, config, bestIndOfAllRunsPac.root, bestIndOfAllRunsGhost.root) # This is where game is run.
 
@@ -74,6 +75,7 @@ def singleRunBoth(config):
     # Here the controllers compete for the first time.
     i = 0
     j = 0
+    # This will keep going until both initial populations are scored.
     while i < config["mu"] or j < config["muGhost"]:
         if i >= config["mu"]:
             pacCont = random.choice(pacPop)
@@ -94,6 +96,7 @@ def singleRunBoth(config):
         i += 1
         j += 1
 
+    # Sets the numOfFitnessEvals to the higher of the two because that is how many were run above.
     numOfFitnessEvals = max(config["mu"], config["muGhost"])
 
     avgScore, bestScoreOfRunPac, bestIndOfRunPac = evalPopulation(pacPop)
@@ -112,12 +115,14 @@ def singleRunBoth(config):
         runLog += toAdd + '\n'
         print(toAdd)
 
+        # Keeps track of best Pac man individual.
         if bestScoreInPopPac > bestScoreOfRunPac:
             bestScoreOfRunPac = bestScoreInPopPac
             bestIndOfRunPac = bestIndividualInPopPac
 
         avgScore, bestScoreInPopGhost, bestIndividualInPopGhost = evalPopulation(ghostPop)
 
+        # Keeps track of best Ghost individual.
         if bestScoreInPopGhost > bestScoreOfRunGhost:
             bestScoreOfRunGhost = bestScoreInPopGhost
             bestIndOfRunGhost = bestIndividualInPopGhost
@@ -133,6 +138,7 @@ def evolve(config, pacPop, ghostPop):
     # Here the controllers compete for the first time.
     i = 0
     j = 0
+    # This will keep going until both populations are scored.
     while i < config["lambda"] or j < config["lambdaGhost"]:
         if i >= config["lambda"]:
             pacCont = random.choice(pacPop)

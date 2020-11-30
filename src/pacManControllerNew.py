@@ -7,6 +7,9 @@ from .map import Map
 IndividualPacManControllerNew creates controller.
 It also contains methods for recombination and mutation.
 
+The new Controller was created so that 2b could still be run without hitch.
+The main difference is that this controller no longer runs the game upon creation.
+
 Recombination is done in __add__
 Mutation is done in mutate()
 """
@@ -237,6 +240,7 @@ class IndividualPacManControllerNew:
     def setScore(self, score):
         gameScore = score + self.parsimony()
         if hasattr(self, 'gameScore'):
+            # Calculates the average based on the new score and the number of times played.
             newAvg = self.gameScore * self.timesPlayed + gameScore
             self.timesPlayed += 1
             newAvg /= self.timesPlayed

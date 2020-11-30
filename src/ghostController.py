@@ -4,7 +4,7 @@ from .playPacManController import Game
 from .map import Map
 
 """
-IndividualGhostController both creates controllers and also runs the game.
+IndividualGhostController creates controllers.
 It also contains methods for recombination and mutation.
 
 Recombination is done in __add__
@@ -237,6 +237,7 @@ class IndividualGhostController:
     def setScore(self, score):
         gameScore = score + self.parsimony()
         if hasattr(self, 'gameScore'):
+            # Calculates the average based on the new score and the number of times played.
             newAvg = self.gameScore * self.timesPlayed + gameScore
             self.timesPlayed += 1
             newAvg /= self.timesPlayed

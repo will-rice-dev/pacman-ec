@@ -39,27 +39,37 @@ Note that running without a config implies the use of a default configuration fi
 
 runType: (Required) String that can either be "GA" or "Random". Represents the type of algorithm used.
 
-mu: (Required) Integer that represents the size of the starting population and the population that survives each generation.\
-lambda: (Required) Integer that represents the number of offspring created from mu sized population. Should be greater than or equal to mu since parents cannot survive to the next generation.
+mu: (Required) Integer that represents the size of the starting population and the population that survives each generation for Pac-Man.\
+lambda: (Required) Integer that represents the number of offspring created from mu sized population for Pac-Man. Should be greater than or equal to mu since parents cannot survive to the next generation.\
+muGhost: (Required) Integer that represents the size of the starting population and the population that survives each generation for Ghost.\
+lambdaGhost: (Required) Integer that represents the number of offspring created from mu sized population for Ghost. Should be greater than or equal to mu since parents cannot survive to the next generation.
 
 pillDensity: (Required) An integer or float containing the percent probability that each blank space will produce a pill. For example, if pillDensity=50, then approximately 50% of blank spaces on the board will be given pills.\
 fruitSpawnProb: (Required) An integer or float containing the percent probability that at the start of each turn a fruit will appear. Fruit will only appear if there are open blank spaces and if there are no existing fruit on the map.\
 fruitScore: (Required) An integer representing how much the game score will increase given that PacMan eats a fruit.\
 timeMult: (Required) An integer representing how many times the area of the map gets multiplied by to represent time.
 
-parentSelect: (Required) String that can either be "Over-Selection" or "Fitness Proportional". Represents the method for selecting parents.\
-survivalSelect: (Required) String that can either be "Truncation" or "k-Tournament". Represents the method for selecting survivors to next generation.\
-survivalTournyK: (Optional) Integer that is only used if survivalSelect is "k-Tournament". It is Required if this is the case. Represents the size of the of k for the tournaments determining survival.
+parentSelect: (Required) String that can either be "Over-Selection" or "Fitness Proportional". Represents the method for selecting parents for Pac-Man.\
+survivalSelect: (Required) String that can either be "Truncation" or "k-Tournament". Represents the method for selecting survivors to next generation for Pac-Man.\
+survivalTournyK: (Optional) Integer that is only used if survivalSelect is "k-Tournament". It is Required if this is the case. Represents the size of the of k for the tournaments determining survival for Pac-Man.
+
+parentSelectGhost: (Required) String that can either be "Over-Selection" or "Fitness Proportional". Represents the method for selecting parents for Ghost.\
+survivalSelectGhost: (Required) String that can either be "Truncation" or "k-Tournament". Represents the method for selecting survivors to next generation for Ghost.\
+survivalTournyKGhost: (Optional) Integer that is only used if survivalSelect is "k-Tournament". It is Required if this is the case. Represents the size of the of k for the tournaments determining survival for Ghost.
 
 numOfRuns: (Required) An integer representing the number of times that a single run happens.\
 numOfFitnessEvals: (Required) An integer representing the number of fitness evaluations that each run gets.\
 givenRandomSeed: (Optional) An integer that, if present, will be used as the random seed. If not present, then time in microseconds gets used instead.
 
 dMax: (Required) Integer representing the maximum depth that a tree can be upon initialization.\
-parsimony: (Required) Integer representing the coefficient of the parsimony punishment.
+parsimony: (Required) Integer representing the coefficient of the parsimony punishment for Pac-Man.\
+parsimonyGhost: (Required) Integer representing the coefficient of the parsimony punishment for Ghost.
 
+overSelectionPercentage: (Optional) If the Over-Selection method is chosen for either Pac-Man or Ghost, then this is actually Required. It is a float (0.0, 1.0) representing the percentage that Over-Select uses.\
+nodeThreshold: (Required) Integer representing the number of nodes allowed before parsimony pressure occurs.\
 fruitConst: (Required) An integer representing what will be used for map value F instead of a manhattan distance if there is no fruit on the board.
 
 logPath: (Required) A string representing where the log file will be output.\
 worldPath: (Required) A string representing where the world file will be output.\
-solPath: (Required) A string representing where the solution file will be output.
+solPath: (Required) A string representing where the solution file for Pac-Man will be output.\
+solPathGhost: (Required) A string representing where the solution file for Ghost will be output.

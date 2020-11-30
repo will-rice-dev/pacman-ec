@@ -12,7 +12,7 @@
   "timeMult": 2,
 
   "numOfRuns": 2,
-  "numOfFitnessEvals": 200,
+  "numOfFitnessEvals": 2000,
 
   "parentSelect": "Over-Selection",
   "survivalSelect": "Truncation",
