@@ -4,22 +4,22 @@ World File: worlds/default.wrld
 Solution File for Pac-Man: solutions/defaultPacMan.sol
 Solution File for Ghost: solutions/defaultGhost.sol
 Pill Density: 50
-Random Seed: 267976
+Random Seed: 42034
 
 Config Used:
 {"runType": "Both", "mu": 100, "lambda": 475, "muGhost": 100, "lambdaGhost": 475, "pillDensity": 50, "fruitSpawnProb": 1, "fruitScore": 10, "timeMult": 2, "numOfRuns": 2, "numOfFitnessEvals": 2000, "parentSelect": "Over-Selection", "survivalSelect": "Truncation", "parentSelectGhost": "Over-Selection", "survivalSelectGhost": "Truncation", "dMax": 3, "parsimony": 5, "parsimonyGhost": 5, "overSelectionPercentage": 0.75, "nodeThreshold": 40, "fruitConst": 100, "logPath": "logs/default.log", "worldPath": "worlds/default.wrld", "solPath": "solutions/defaultPacMan.sol", "solPathGhost": "solutions/defaultGhost.sol"}
 
 Run 1
-100	9.22	96
-575	53.4	107
-1050	68.01	117
-1525	61.73	153
-2000	73.98	134
+100	7.9	68
+575	48.47	136
+1050	61.67	128
+1525	62.94	163
+2000	62.53	135
 
 Run 2
-100	13.11	113
-575	56.34	122
-1050	71.82	158
-1525	73.27	124
-2000	69.4	142
+100	13.5	119
+575	55.19	112
+1050	71.49	167
+1525	78.26	152
+2000	85.19	173
 
